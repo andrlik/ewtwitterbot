@@ -19,6 +19,7 @@ flake8-isort = "^4.1.1"
 pytest = "^7.0.1"
 pytest-cov = "^3.0.0"
 pytest-sugar = "^0.9.4"
+requests-mock = "^1.9.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
