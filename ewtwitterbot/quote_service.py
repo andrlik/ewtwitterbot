@@ -8,10 +8,8 @@ class QuoteServiceImproperlyConfigured(Exception):
     pass
 
 
-qs_token = os.environ.get("QS_TOKEN", default=None)
-
-
 def make_headers() -> Dict[str, str]:
+    qs_token = os.environ.get("QS_TOKEN", default=None)
     if qs_token is None:
         raise QuoteServiceImproperlyConfigured
     return {"Authorization": f"Token {qs_token}"}
