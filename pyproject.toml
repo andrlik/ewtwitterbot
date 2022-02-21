@@ -9,6 +9,7 @@ license = "BSD"
 python = "^3.9"
 requests = "^2.27.1"
 tweepy = {extras = ["async"], version = "^4.5.0"}
+Pillow = "^9.0.1"
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.931"
@@ -20,6 +21,7 @@ pytest = "^7.0.1"
 pytest-cov = "^3.0.0"
 pytest-sugar = "^0.9.4"
 requests-mock = "^1.9.3"
+types-Pillow = "^9.0.6"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

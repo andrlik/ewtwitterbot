@@ -46,6 +46,9 @@ coverage.xml
 *.cover
 .hypothesis/
 
+# Output from local testing, etc.
+quote_image.png
+
 # Translations
 *.mo
 *.pot
