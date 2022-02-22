@@ -207,3 +207,7 @@ def respond_to_tweets(filename: Optional[str] = "last_tweet.txt") -> None:
             except tweepy.errors.TweepyException:  # pragma: nocover
                 logger.info(f"Already replied to {mention.id}")
         save_last_tweet_id(filename, new_id)
+
+
+if __name__ == "__main__":  # pragma: nocover
+    respond_to_tweets("last_tweet.txt")
