@@ -334,3 +334,5 @@ vendors.js
 .env
 .envs/*
 .envrc
+
+last_tweet_id.txt
