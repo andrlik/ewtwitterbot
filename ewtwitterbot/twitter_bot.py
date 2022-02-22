@@ -117,7 +117,7 @@ def process_tweet_request(
     :param character_to_use: dict of character and slug. Mostly for testing.
     :return: str or None for both image text to use and citation url.
     """
-    if "#quote" in mention.lower():
+    if "quote" in mention.lower():
         logger.info("They appear to be asking for a random quote.")
         quote_result = get_random_quote()
         if type(quote_result) == int:
@@ -126,7 +126,7 @@ def process_tweet_request(
             )
             return None, None
         return format_quote_for_image(quote_result), quote_result["citation_url"]
-    if "#markov" in mention.lower():
+    if "markov" in mention.lower():
         logger.info("They appear to be asking for a markov generated sentence.")
         if character_to_use is None:  # pragma: no cover
             character_to_use = fetch_and_select_random_character()
@@ -185,9 +185,9 @@ def respond_to_tweets(filename: Optional[str] = "last_tweet.txt") -> None:
     text_to_use: Optional[str]
     logger.info("Someone mentioned me.")
     for mention in reversed(mentions):
-        logger.info(str(mention.id) + "-" + mention.text)
+        logger.info(str(mention.id) + "-" + mention.full_text)
         new_id = mention.id
-        text_to_use, link_to_quote = process_tweet_request(mention.text)
+        text_to_use, link_to_quote = process_tweet_request(mention.full_text)
         if text_to_use is not None:
             logger.debug("Creating image for requested quote/sentence...")
             get_quote_image(text_to_use)

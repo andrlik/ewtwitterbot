@@ -21,26 +21,26 @@ from ewtwitterbot.twitter_bot import (
 
 @pytest.fixture
 def save_a_tweet_id():
-    with open("last_tweet.txt", "w") as f:
+    with open("test_last_tweet.txt", "w") as f:
         f.write(str(14))
 
 
 def test_retrieve_last_id_saved(save_a_tweet_id):
-    assert get_last_tweet_id("last_tweet.txt") == 14
+    assert get_last_tweet_id("test_last_tweet.txt") == 14
 
 
 def test_save_tweet_id():
-    if os.path.exists("last_tweet.txt"):
-        os.remove("last_tweet.txt")
-    save_last_tweet_id("last_tweet.txt", 40)
-    assert os.path.exists("last_tweet.txt")
-    assert get_last_tweet_id("last_tweet.txt") == 40
+    if os.path.exists("test_last_tweet.txt"):
+        os.remove("test_last_tweet.txt")
+    save_last_tweet_id("test_last_tweet.txt", 40)
+    assert os.path.exists("test_last_tweet.txt")
+    assert get_last_tweet_id("test_last_tweet.txt") == 40
 
 
 def test_retrieve_nonexistent_tweet_id():
-    if os.path.exists("last_tweet.txt"):
-        os.remove("last_tweet.txt")
-    assert get_last_tweet_id("last_tweet.txt") == 1
+    if os.path.exists("test_last_tweet.txt"):
+        os.remove("test_last_tweet.txt")
+    assert get_last_tweet_id("test_last_tweet.txt") == 1
 
 
 @pytest.mark.parametrize(
@@ -388,7 +388,7 @@ def test_twitter_mention_cycle(twitter_environ_patch):
                         },
                         "in_reply_to_user_id_str": "14927800",
                         "contributors": None,
-                        "text": "@somebot #markov",
+                        "full_text": "@somebot markov",
                         "retweet_count": 0,
                         "in_reply_to_status_id_str": None,
                         "id": 242613977966850048,
@@ -476,7 +476,7 @@ def test_twitter_mention_cycle(twitter_environ_patch):
                         },
                         "in_reply_to_user_id_str": None,
                         "contributors": None,
-                        "text": "@somebot #quote",
+                        "full_text": "@somebot quote",
                         "retweet_count": 0,
                         "in_reply_to_status_id_str": None,
                         "id": 242534402280783873,
@@ -693,5 +693,5 @@ def test_twitter_mention_cycle(twitter_environ_patch):
                 "https://quoteservice.andrlik.org/api/characters/ew-nix/generate_sentence/",
                 json={"sentence": "fear the snek"},
             )
-            respond_to_tweets("last_tweet.txt")
-            assert get_last_tweet_id("last_tweet.txt") == 242613977966850048
+            respond_to_tweets("test_last_tweet.txt")
+            assert get_last_tweet_id("test_last_tweet.txt") == 242613977966850048
