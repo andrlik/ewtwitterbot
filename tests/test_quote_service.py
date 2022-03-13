@@ -42,7 +42,7 @@ def test_request_quote(url_to_mock, character):
                 "quote_rendered": "<p>I ate too much pie.</p>",
                 "citation": "some episode num",
                 "citation_url": "https://www.explorerswanted.fm/3",
-                "character": {
+                "source": {
                     "id": 4,
                     "name": "Nix",
                     "slug": "ew-nix",
