@@ -50,7 +50,7 @@ def test_retrieve_nonexistent_tweet_id():
             {
                 "quote": "We've got 85,000 problems and no friends.",
                 "quote_rendered": "<p>We've got 85,000 problems and no friends.</p>",
-                "character": {
+                "source": {
                     "name": "Nix",
                     "group": {
                         "name": "Explorers Wanted",
@@ -71,7 +71,7 @@ def test_retrieve_nonexistent_tweet_id():
             {
                 "quote": "Are your organs inside?",
                 "quote_rendered": "<p>Are your organs inside?</p>",
-                "character": {
+                "source": {
                     "name": "Dili",
                     "group": {
                         "name": "Explorers Wanted",
@@ -92,7 +92,7 @@ def test_retrieve_nonexistent_tweet_id():
             {
                 "quote": 'We said, "more cardio," Dili! This is why you can\'t keep up.',
                 "quote_rendered": '<p>We said, "more cardio," Dili! This is why you can\'t keep up.</p>',
-                "character": {
+                "source": {
                     "name": "ChaCha",
                     "group": {
                         "name": "Explorers Wanted",
@@ -218,7 +218,7 @@ def test_error_character_to_use():
                 "quote_rendered": "<p>I ate too much pie.</p>",
                 "citation": "Episode 3",
                 "citation_url": "https://www.explorerswanted.fm/3",
-                "character": {
+                "source": {
                     "id": 4,
                     "name": "Nix",
                     "slug": "ew-nix",
@@ -677,7 +677,7 @@ def test_twitter_mention_cycle(twitter_environ_patch):
                     "quote_rendered": "<p>We always go right.</p>",
                     "citation": "Episode 3",
                     "citation_url": "https://www.explorerswanted.fm/3",
-                    "character": {
+                    "source": {
                         "name": "Nix",
                         "slug": "ew-nix",
                         "description": "Glaive",

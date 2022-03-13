@@ -49,7 +49,7 @@ def format_quote_for_image(quote: Dict[str, Any]) -> str:
     :param quote: dict representation of quote
     :return: str
     """
-    return f"""\u201C{quote['quote']}\u201D\n\n \u2014{quote["character"]["name"]}, {quote['citation']}"""
+    return f"""\u201C{quote['quote']}\u201D\n\n \u2014{quote["source"]["name"]}, {quote['citation']}"""
 
 
 def format_sentence_for_image(sentence: str, character_name: str) -> str:
