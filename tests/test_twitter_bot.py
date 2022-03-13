@@ -138,7 +138,7 @@ def test_sentence_formatting(sentence_to_test, character, expected_result):
 def test_character_to_use():
     with requests_mock.Mocker() as m:
         m.get(
-            "https://quoteservice.andrlik.org/api/characters/",
+            "https://quoteservice.andrlik.org/api/sources/",
             status_code=200,
             json=[
                 {
@@ -189,7 +189,7 @@ def test_character_to_use():
 def test_error_character_to_use():
     with requests_mock.Mocker() as m:
         m.get(
-            "https://quoteservice.andrlik.org/api/characters/",
+            "https://quoteservice.andrlik.org/api/sources/",
             status_code=404,
             json={"error": "No characters found!"},
         )
@@ -241,7 +241,7 @@ def test_error_character_to_use():
         ),
         (
             "@somebot #markov",
-            "https://quoteservice.andrlik.org/api/characters/ew-nix/generate_sentence/",
+            "https://quoteservice.andrlik.org/api/sources/ew-nix/generate_sentence/",
             200,
             {"sentence": "The snek was in me all along."},
             """\u201CThe snek was in me all along.\u201D\n\n \u2014NixBot, Twitter""",
@@ -250,7 +250,7 @@ def test_error_character_to_use():
         ),
         (
             "@somebot #markov",
-            "https://quoteservice.andrlik.org/api/characters/ew-nix/generate_sentence/",
+            "https://quoteservice.andrlik.org/api/sources/ew-nix/generate_sentence/",
             403,
             {"error": "This character does not allow sentence generation."},
             None,
@@ -686,11 +686,11 @@ def test_twitter_mention_cycle(twitter_environ_patch):
                 },
             )
             m.get(
-                "https://quoteservice.andrlik.org/api/characters/",
+                "https://quoteservice.andrlik.org/api/sources/",
                 json=[{"name": "Nix", "slug": "ew-nix"}],
             )
             m.get(
-                "https://quoteservice.andrlik.org/api/characters/ew-nix/generate_sentence/",
+                "https://quoteservice.andrlik.org/api/sources/ew-nix/generate_sentence/",
                 json={"sentence": "fear the snek"},
             )
             respond_to_tweets("test_last_tweet.txt")

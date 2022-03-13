@@ -25,7 +25,7 @@ def get_random_quote(character: Optional[str] = None) -> Union[Dict[str, Any], i
     hostname = "https://quoteservice.andrlik.org/api/"
     url = f"{hostname}groups/ew/get_random_quote/"
     if character is not None:
-        url = f"{hostname}characters/ew-{character.lower()}/get_random_quote/"
+        url = f"{hostname}sources/ew-{character.lower()}/get_random_quote/"
     r = requests.get(url, headers=make_headers())
     if r.status_code != 200:
         return r.status_code
@@ -42,7 +42,7 @@ def generate_sentence(character: Optional[str] = None) -> Union[str, int]:
     hostname = "https://quoteservice.andrlik.org/api/"
     url = f"{hostname}groups/ew/generate_sentence/"
     if character is not None:
-        url = f"{hostname}characters/ew-{character.lower()}/generate_sentence/"
+        url = f"{hostname}sources/ew-{character.lower()}/generate_sentence/"
     r = requests.get(url, headers=make_headers())
     if r.status_code != 200:
         return r.status_code
@@ -55,7 +55,7 @@ def list_characters() -> Union[List[Dict[str, str]], int]:
 
     :return: Either a list of dict representations of the characters and their slugs, or an int error code.
     """
-    url = "https://quoteservice.andrlik.org/api/characters/"
+    url = "https://quoteservice.andrlik.org/api/sources/"
     r = requests.get(url, headers=make_headers())
     if r.status_code != 200:
         return r.status_code

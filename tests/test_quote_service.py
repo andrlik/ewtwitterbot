@@ -26,7 +26,7 @@ def test_configuration_setup():
     [
         ("https://quoteservice.andrlik.org/api/groups/ew/get_random_quote/", None),
         (
-            "https://quoteservice.andrlik.org/api/characters/ew-nix/get_random_quote/",
+            "https://quoteservice.andrlik.org/api/sources/ew-nix/get_random_quote/",
             "Nix",
         ),
     ],
@@ -60,7 +60,7 @@ def test_request_quote(url_to_mock, character):
     [
         ("https://quoteservice.andrlik.org/api/groups/ew/get_random_quote/", None),
         (
-            "https://quoteservice.andrlik.org/api/characters/ew-nix/get_random_quote/",
+            "https://quoteservice.andrlik.org/api/sources/ew-nix/get_random_quote/",
             "Nix",
         ),
     ],
@@ -81,7 +81,7 @@ def test_request_quote_error(url_to_mock, character):
     [
         ("https://quoteservice.andrlik.org/api/groups/ew/generate_sentence/", None),
         (
-            "https://quoteservice.andrlik.org/api/characters/ew-nix/generate_sentence/",
+            "https://quoteservice.andrlik.org/api/sources/ew-nix/generate_sentence/",
             "Nix",
         ),
     ],
@@ -102,7 +102,7 @@ def test_generate_sentence(url_to_mock, character):
     [
         ("https://quoteservice.andrlik.org/api/groups/ew/generate_sentence/", None),
         (
-            "https://quoteservice.andrlik.org/api/characters/ew-nix/generate_sentence/",
+            "https://quoteservice.andrlik.org/api/sources/ew-nix/generate_sentence/",
             "Nix",
         ),
     ],
@@ -121,7 +121,7 @@ def test_generate_sentence_error(url_to_mock, character):
 def test_list_characters():
     with requests_mock.Mocker() as m:
         m.get(
-            "https://quoteservice.andrlik.org/api/characters/",
+            "https://quoteservice.andrlik.org/api/sources/",
             status_code=200,
             json=[
                 {
@@ -169,9 +169,9 @@ def test_list_characters():
 def test_list_characters_error():
     with requests_mock.Mocker() as m:
         m.get(
-            "https://quoteservice.andrlik.org/api/characters/",
+            "https://quoteservice.andrlik.org/api/sources/",
             status_code=404,
-            json={"error": "No characters found!"},
+            json={"error": "No sources found!"},
         )
         r = list_characters()
         assert r == 404
