@@ -336,4 +336,11 @@ vendors.js
 .envrc
 
 last_tweet.txt
+last_toot.txt
+test_last_toot.txt
 test_last_tweet.txt
+ewbot_clientcred.secret
+ewbot_usercred.secret
+quote_image.png
+mastodon_quote_image.png
+twitter_quote_image.png

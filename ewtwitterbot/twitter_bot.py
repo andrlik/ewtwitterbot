@@ -1,16 +1,11 @@
 import os
-import random
-from typing import Any, Dict, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 import tweepy
 from loguru import logger
 
 from ewtwitterbot.imagery import get_quote_image
-from ewtwitterbot.quote_service import (
-    generate_sentence,
-    get_random_quote,
-    list_characters,
-)
+from ewtwitterbot.status_processing import process_request
 
 
 class TwitterImproperlyConfigured(Exception):
@@ -42,27 +37,6 @@ def get_credentials_from_environ() -> tweepy.API:
     return tweepy.API(auth)
 
 
-def format_quote_for_image(quote: Dict[str, Any]) -> str:
-    """
-    Given a dict representation of a quote object, format it for our image generation.
-
-    :param quote: dict representation of quote
-    :return: str
-    """
-    return f"""\u201C{quote['quote']}\u201D\n\n \u2014{quote["source"]["name"]}, {quote['citation']}"""
-
-
-def format_sentence_for_image(sentence: str, character_name: str) -> str:
-    """
-    Given the sentence and character name, form the string to write upon the quote image.
-
-    :param sentence: str
-    :param character_name: str
-    :return: str
-    """
-    return f"""\u201C{sentence}\u201D\n\n \u2014{character_name}Bot, Twitter"""
-
-
 def get_last_tweet_id(filename: str) -> int:
     """
     Get the stored last tweet id that we responded to.
@@ -90,61 +64,6 @@ def save_last_tweet_id(filename: str, tweet_id: int) -> None:
     with open(filename, "w") as f:
         f.write(str(tweet_id))
     logger.info(f"Saved last tweet responded to as {tweet_id}")
-
-
-def fetch_and_select_random_character() -> Optional[Dict[str, Any]]:
-    """
-    Fetch a list of characters and return a random one as a dict of name and slug.
-    We separate this function to help with unit testing.
-    :return: dict object
-    """
-    character_result = list_characters()
-    if type(character_result) == int:
-        logger.error(
-            f"The QuoteService responded to a character request with error {character_result}"
-        )
-        return None
-    return random.choice(character_result)
-
-
-def process_tweet_request(
-    mention: str, character_to_use: Optional[Dict[str, str]] = None
-) -> Tuple[Optional[str], Optional[str]]:
-    """
-    Given the full text of a twitter mention, return the text to use or None.
-
-    :param mention: str
-    :param character_to_use: dict of character and slug. Mostly for testing.
-    :return: str or None for both image text to use and citation url.
-    """
-    if "quote" in mention.lower():
-        logger.info("They appear to be asking for a random quote.")
-        quote_result = get_random_quote()
-        if type(quote_result) == int:
-            logger.error(
-                f"This quote request resulted in an error {quote_result} from QuoteServer."
-            )
-            return None, None
-        return format_quote_for_image(quote_result), quote_result["citation_url"]
-    if "markov" in mention.lower():
-        logger.info("They appear to be asking for a markov generated sentence.")
-        if character_to_use is None:  # pragma: no cover
-            character_to_use = fetch_and_select_random_character()
-        if (
-            character_to_use is None
-        ):  # pragma: no cover This is already tested in other methods.
-            return None, None
-        sentence_result = generate_sentence(character_to_use["slug"][3:])
-        if type(sentence_result) == int:
-            logger.error(
-                f"The sentence request to the QuoteServer responded with code {sentence_result}."
-            )
-            return None, None
-        return (
-            format_sentence_for_image(sentence_result, character_to_use["name"]),
-            "https://www.explorerswanted.fm",
-        )
-    return None, None
 
 
 def upload_image_and_set_metadata(
@@ -183,11 +102,11 @@ def respond_to_tweets(filename: Optional[str] = "last_tweet.txt") -> None:
         logger.debug("No new mentions! Exiting...")
         return
     text_to_use: Optional[str]
-    logger.info("Someone mentioned me.")
+    logger.info("Someone mentioned me on Twitter.")
     for mention in reversed(mentions):
         logger.info(str(mention.id) + "-" + mention.full_text)
         new_id = mention.id
-        text_to_use, link_to_quote = process_tweet_request(mention.full_text)
+        text_to_use, link_to_quote = process_request(mention.full_text, "Twitter")
         if text_to_use is not None:
             logger.debug("Creating image for requested quote/sentence...")
             get_quote_image(text_to_use)

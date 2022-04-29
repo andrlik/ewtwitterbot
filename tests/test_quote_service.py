@@ -6,6 +6,7 @@ import requests_mock
 
 from ewtwitterbot.quote_service import (
     QuoteServiceImproperlyConfigured,
+    fetch_and_select_random_character,
     generate_sentence,
     get_random_quote,
     list_characters,
@@ -175,3 +176,64 @@ def test_list_characters_error():
         )
         r = list_characters()
         assert r == 404
+
+
+def test_character_to_use():
+    with requests_mock.Mocker() as m:
+        m.get(
+            "https://quoteservice.andrlik.org/api/sources/",
+            status_code=200,
+            json=[
+                {
+                    "name": "Nix",
+                    "description": "Glaive",
+                    "description_rendered": "<p>Glaive</p>",
+                    "slug": "ew-nix",
+                    "group": {
+                        "name": "Explorers Wanted",
+                        "slug": "ew",
+                        "description": "podcast",
+                        "description_rendered": "<p>podcast</p>",
+                    },
+                },
+                {
+                    "name": "Dili",
+                    "description": "Wright",
+                    "description_rendered": "<p>Wright</p>",
+                    "slug": "ew-dili",
+                    "group": {
+                        "name": "Explorers Wanted",
+                        "slug": "ew",
+                        "description": "podcast",
+                        "description_rendered": "<p>podcast</p>",
+                    },
+                },
+                {
+                    "name": "ChaCha",
+                    "description": "Nano",
+                    "description_rendered": "<p>Nano</p>",
+                    "slug": "ew-chacha",
+                    "group": {
+                        "name": "Explorers Wanted",
+                        "slug": "ew",
+                        "description": "podcast",
+                        "description_rendered": "<p>podcast</p>",
+                    },
+                },
+            ],
+        )
+        assert fetch_and_select_random_character() in [
+            {"name": "Nix", "slug": "ew-nix"},
+            {"name": "ChaCha", "slug": "ew-chacha"},
+            {"name": "Dili", "slug": "ew-dili"},
+        ]
+
+
+def test_error_character_to_use():
+    with requests_mock.Mocker() as m:
+        m.get(
+            "https://quoteservice.andrlik.org/api/sources/",
+            status_code=404,
+            json={"error": "No characters found!"},
+        )
+        assert fetch_and_select_random_character() is None

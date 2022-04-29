@@ -1,5 +1,5 @@
 import textwrap
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -11,6 +11,7 @@ def get_quote_image(
     font_path: Optional[str] = "Raleway/Raleway-Regular.ttf",
     bgcolor: Optional[tuple] = (126, 47, 139),
     txtcolor: Optional[tuple] = (255, 255, 255),
+    filename: Optional[str] = "quote_image.png",
 ) -> None:
     """
     Given a quote as text, generate an image with the text on it.
@@ -19,13 +20,14 @@ def get_quote_image(
     :param font_path: Relative path from `fonts` to the ttf font file.
     :param bgcolor: Tuple representation of RGB color to use on background.
     :param txtcolor: Tuple representation of RGB color to use for text.
+    :param filename: Filename for generated image.
     :return: str representation of path to generated image.
     """
     image = Image.new("RGB", (800, 400), color=bgcolor)
     font = ImageFont.truetype(f"ewtwitterbot/fonts/{font_path}", 40)
     text_start_height = 100
     draw_text_on_image(image, quote_text, font, txtcolor, text_start_height)
-    image.save("quote_image.png")
+    image.save(filename)
 
 
 def draw_text_on_image(
@@ -57,3 +59,28 @@ def draw_text_on_image(
                 fill=text_color,
             )
             y_text += line_height
+
+
+def format_quote_for_image(quote: Dict[str, Any]) -> str:
+    """
+    Given a dict representation of a quote object, format it for our image generation.
+
+    :param quote: dict representation of quote
+    :return: str
+    """
+    return f"""\u201C{quote['quote']}\u201D\n\n \u2014{quote["source"]["name"]}, {quote['citation']}"""
+
+
+def format_sentence_for_image(
+    sentence: str, character_name: str, service_name: str
+) -> str:
+    """
+    Given the sentence, character name, and service name, e.g. "Twitter", form the string
+    to write upon the quote image.
+
+    :param sentence: str
+    :param character_name: str
+    :param service_name: str
+    :return: str
+    """
+    return f"""\u201C{sentence}\u201D\n\n \u2014{character_name}Bot, {service_name}"""
