@@ -1,5 +1,7 @@
 # Explorers Wanted Twitter Bot
 
+**This has been moved [to Codeberg](https://codeberg.org/andrlik/ewtwitterbot) as of 2025-08-13.**
+
 [![Black code style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 [![Pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/andrlik/ewtwitterbot/blob/main/.pre-commit-config.yaml)
 [![License](https://img.shields.io/github/license/andrlik/ewtwitterbot)](https://github.com/andrlik/ewtwitterbot/blob/main/LICENSE)
